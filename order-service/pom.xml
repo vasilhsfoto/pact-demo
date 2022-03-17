@@ -17,6 +17,7 @@
 
     <properties>
         <java.version>17</java.version>
+        <pact.version>4.2.0</pact.version>
     </properties>
 
     <dependencies>
@@ -43,7 +44,7 @@
         <dependency>
             <groupId>au.com.dius.pact.consumer</groupId>
             <artifactId>junit5</artifactId>
-            <version>4.2.0</version>
+            <version>${pact.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -65,14 +66,58 @@
             <plugin>
                 <groupId>au.com.dius.pact.provider</groupId>
                 <artifactId>maven</artifactId>
-                <version>4.1.11</version>
+                <version>${pact.version}</version>
+                <executions>
+                    <execution>
+                        <id>publish-contracts-to-broker</id>
+                        <goals>
+                            <goal>publish</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
                 <configuration>
                     <pactDirectory>${project.build.directory}/pacts</pactDirectory>
                     <pactBrokerUrl>http://localhost:9292</pactBrokerUrl>
-                    <projectVersion>${git.shorthash}</projectVersion> <!-- Defaults to ${project.version}, or you can generate your own version from git -->
+                    <projectVersion>${git.shorthash}
+                    </projectVersion> <!-- Defaults to ${project.version}, or you can generate your own version from git -->
                     <trimSnapshot>true</trimSnapshot> <!-- Defaults to false -->
                     <skipPactPublish>${pact.skipPublish}</skipPactPublish> <!-- Defaults to false -->
+                    <tags>
+                        <tag>${git.branch}</tag>
+                    </tags>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <verbose>false</verbose>
+                    <offline>true</offline>
+                    <generateGitPropertiesFile>false</generateGitPropertiesFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <echo>Look here the env variables used by mvn</echo>
+                                <echo>git_branch: ${git.branch}</echo>
+                                <echo>JAVA_HOME: ${env.JAVA_HOME}</echo>
+                                <echo>Pact version: ${pact.version}</echo>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

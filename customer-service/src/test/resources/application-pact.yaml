@@ -1,0 +1,7 @@
+pactbroker:
+  host: localhost
+  port: 9292
+
+pact:
+  verifier:
+    publishResults: true
