@@ -13,3 +13,5 @@
 - You bind one @Test per @Pact method so that consumer side can run the test against a mock server provider
 - For this to make sense, we need to use production code e.g a ProvideServiceNameClient
 - Once it is done tests are in target and using a maven plugin, pacts are uploaded to broker
+
+Note: https://docs.pact.io/implementation_guides/jvm/consumer/junit5

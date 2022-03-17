@@ -17,3 +17,7 @@
 - all the configuration per test case happens in @State... usually setting up mocks
 - The tests run using Junit 5 @TestTemplate by pact which runs for each pact the test method
 - No need for a plugin here, the publication of the verification results happens per test class
+
+**Note:**
+https://docs.pact.io/implementation_guides/jvm/provider/junit5
+https://docs.pact.io/implementation_guides/jvm/provider/junit5spring

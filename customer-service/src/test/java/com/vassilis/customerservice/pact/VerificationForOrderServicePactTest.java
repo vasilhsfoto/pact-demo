@@ -1,4 +1,4 @@
-package com.vassilis.customerservice;
+package com.vassilis.customerservice.pact;
 
 import java.time.LocalDate;
 import java.util.Optional;
